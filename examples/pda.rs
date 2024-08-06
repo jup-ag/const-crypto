@@ -1,12 +1,23 @@
-use const_crypto::{bs58, ed25519, sha2, sha3};
+use const_crypto::{ed25519, sha2, sha3};
 
-/// Uses const bs58 to roundtrip (decode + encode) system_program ID
-pub const PROGRAM_KEY: [u8; 32] = bs58::decode_pubkey("11111111111111111111111111111111");
-pub const PROGRAM_KEY_STR: &'static str = bs58::encode_pubkey(&PROGRAM_KEY).str();
-const _: () = assert!(ascii_str_eq(
-    PROGRAM_KEY_STR,
-    "11111111111111111111111111111111"
-));
+#[cfg(feature = "bs58")]
+mod bs58 {
+    use super::*;
+    use const_crypto::bs58;
+
+    /// Uses const bs58 to roundtrip (decode + encode) system_program ID
+    pub const PROGRAM_KEY: [u8; 32] = bs58::decode_pubkey("11111111111111111111111111111111");
+    pub const PROGRAM_KEY_STR: &'static str = bs58::encode_pubkey(&PROGRAM_KEY).str();
+    const _: () = assert!(ascii_str_eq(
+        PROGRAM_KEY_STR,
+        "11111111111111111111111111111111"
+    ));
+}
+#[cfg(feature = "bs58")]
+const PROGRAM_KEY: [u8; 32] = bs58::PROGRAM_KEY;
+
+#[cfg(not(feature = "bs58"))]
+const PROGRAM_KEY: [u8; 32] = [0u8; 32];
 
 /// Uses const ed25519 (and thus const sha2 internally)
 pub const PROGRAM_DERIVED_ADDRESS: [u8; 32] =

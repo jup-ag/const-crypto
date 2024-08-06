@@ -10,6 +10,10 @@ authors = [
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/cavemanloverboy/const-crypto"
 
+[features]
+default = []
+bs58 = []
+
 [dependencies]
 sha2-const-stable = "0.1.0"
 keccak-const = "0.2.0"

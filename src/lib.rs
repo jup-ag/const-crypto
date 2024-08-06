@@ -1,5 +1,6 @@
 #![no_std]
 #[doc = include_str!("../README.md")]
+#[cfg(feature = "bs58")]
 pub mod bs58;
 pub mod ed25519;
 pub use keccak_const as sha3;
